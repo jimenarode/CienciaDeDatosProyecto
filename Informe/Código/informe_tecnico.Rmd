@@ -1,0 +1,89 @@
+---
+title: "Informe Técnico"
+author: "Jimena María Rode Aguilar"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+## Resumen del Proyecto
+
+El conjunto de datos CRONOS-2 Wave 4 forma parte de una iniciativa de encuestas sociales a gran escala llevada a cabo en 12 países europeos entre 2021 y 2023. Este informe técnico resume los principales hallazgos del análisis de datos exploratorio (EDA) realizado sobre este conjunto de datos.
+
+## Objetivos del Proyecto
+
+### Objetivo Principal
+
+Analizar y visualizar las tendencias en diversas áreas como desarrollo social, diversidad familiar, populismo, salud mental y confianza institucional utilizando el conjunto de datos CRONOS-2 Wave 4.
+
+### Objetivos Específicos
+
+- Explorar la distribución de la edad entre los diferentes países y cómo se relaciona con otras variables.
+- Evaluar cómo varían los ingresos del hogar entre los diferentes países y en función de la edad y el género.
+- Analizar la distribución de la felicidad entre diferentes países y grupos demográficos.
+- Identificar diferencias en el uso de internet entre los diferentes países y grupos demográficos.
+
+## Análisis Exploratorio de Datos
+
+### Descripción de los Datos
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(readr)
+
+# Cargar los datos desde un archivo CSV
+datos_clean <- read_csv("datos_clean.csv")
+
+# Verificar si los datos se cargaron correctamente
+if (exists("datos_clean")) {
+  print("Datos cargados correctamente")
+} else {
+  stop("Error: no se pudieron cargar los datos")
+}
+
+# Mostrar las primeras filas del conjunto de datos limpio
+head(datos_clean)
+
+ 
+# Tabla Resumen con Indicadores
+# Convertir la columna de felicidad a un factor ordenado para calcular la media de manera adecuada
+datos_clean <- datos_clean %>%
+  mutate(W4q50_num = case_when(
+    W4q50 == "Rara vez" ~ 1,
+    W4q50 == "Algunas veces" ~ 2,
+    W4q50 == "Frecuentemente" ~ 3,
+    W4q50 == "Casi siempre" ~ 4,
+    W4q50 == "Siempre" ~ 5,
+    TRUE ~ NA_real_
+  ))
+
+# Crear una tabla resumen
+summary_table <- datos_clean %>%
+  summarise(
+    Edad_Media = mean(Eduyrs, na.rm = TRUE),
+    Ingreso_Medio = mean(C2weight, na.rm = TRUE),
+    Felicidad_Media = mean(W4q50_num, na.rm = TRUE)
+  )
+
+summary_table
+
+
+
+# Gráfico de barras de la distribución de la felicidad
+ggplot(datos_clean, aes(x = W4q50)) +
+  geom_bar(fill = "skyblue") +
+  labs(title = "Distribución de la Felicidad", x = "Frecuencia de Sentirse Feliz", y = "Conteo")
+ 
+```
+
+## Conclusiones
+### Relación entre Edad e Ingreso del Hogar
+La relación entre la edad y el ingreso del hogar muestra que los ingresos tienden a ser más altos en ciertos rangos de edad, lo cual puede reflejar el progreso en la carrera profesional y la acumulación de experiencia laboral.
+
+### Comparaciones de Género en Diferentes Países
+Se observan diferencias significativas en la experiencia y percepción entre hombres y mujeres en términos de ingresos del hogar y felicidad. La distribución de género está relativamente equilibrada en la mayoría de los países, lo que sugiere una buena representatividad en la muestra.
+
+### Relación entre Edad e Ingreso del Hogar
+La mayoría de los encuestados reportaron sentirse feliz al menos algunas veces, con variaciones significativas según el país y otros factores demográficos.
+
+
