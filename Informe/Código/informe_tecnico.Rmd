@@ -1,0 +1,127 @@
+---
+title: "Informe Técnico"
+author: "Jimena María Rode Aguilar"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+## Resumen del Proyecto
+
+El conjunto de datos CRONOS-2 Wave 4 forma parte de una iniciativa de encuestas sociales a gran escala llevada a cabo en 12 países europeos entre 2021 y 2023. Este informe técnico resume los principales hallazgos del análisis de datos exploratorio (EDA) realizado sobre este conjunto de datos.
+
+## Objetivos del Proyecto
+
+### Objetivo Principal
+
+Analizar y visualizar las tendencias en diversas áreas como desarrollo social, diversidad familiar, populismo, salud mental y confianza institucional utilizando el conjunto de datos CRONOS-2 Wave 4.
+
+### Objetivos Específicos
+
+- Explorar la distribución de la edad entre los diferentes países y cómo se relaciona con otras variables.
+- Evaluar cómo varían los ingresos del hogar entre los diferentes países y en función de la edad y el género.
+- Analizar la distribución de la felicidad entre diferentes países y grupos demográficos.
+- Identificar diferencias en el uso de internet entre los diferentes países y grupos demográficos.
+
+## Análisis Exploratorio de Datos
+
+### Descripción de los Datos
+
+```{r, echo=FALSE}
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(here)
+library(knitr)
+library(kableExtra)
+
+# Cargar los datos desde un archivo CSV
+datos_clean <- read_csv(here("Datos", "Base de datos depurada", "datos_clean.csv"))
+
+# Verificar si los datos se cargaron correctamente
+if (exists("datos_clean")) {
+  print("Datos cargados correctamente")
+} else {
+  stop("Error: no se pudieron cargar los datos")
+}
+
+# Mostrar las primeras filas del conjunto de datos limpio
+head(datos_clean)
+
+ 
+# Tabla Resumen con Indicadores
+# Convertir la columna de felicidad a un factor ordenado para calcular la media de manera adecuada
+datos_clean <- datos_clean %>%
+  mutate(W4q50_num = case_when(
+    W4q50 == "Rara vez" ~ 1,
+    W4q50 == "Algunas veces" ~ 2,
+    W4q50 == "Frecuentemente" ~ 3,
+    W4q50 == "Casi siempre" ~ 4,
+    W4q50 == "Siempre" ~ 5,
+    TRUE ~ NA_real_
+  ))
+
+# Crear una tabla resumen
+summary_table <- datos_clean %>%
+  summarise(
+    `Edad Media (Años)` = round(mean(Eduyrs, na.rm = TRUE), 2),
+    `Ingreso Medio (Unidades Monetarias)` = round(mean(C2weight, na.rm = TRUE), 2),
+    `Felicidad Media (1-5)` = round(mean(W4q50_num, na.rm = TRUE), 2),
+    `Uso de Internet Frecuente (%)` = round(mean(Netusoft == "Frecuentemente", na.rm = TRUE) * 100, 2),
+    `Uso de Internet Diario (%)` = round(mean(Netusoft == "Todos los días", na.rm = TRUE) * 100, 2)
+  )
+
+# Mostrar la tabla resumen con formato
+kable(summary_table, format = "latex", caption = "Tabla Resumen de Indicadores", booktabs = TRUE, longtable = TRUE) %>%
+  kable_styling(latex_options = c("striped", "scale_down"), full_width = FALSE, position = "center") %>%
+  column_spec(1, width = "2.5cm") %>%
+  column_spec(2:5, width = "3cm")
+
+# Gráfico de la distribución de la felicidad
+ggplot(datos_clean, aes(x = W4q50)) +
+  geom_bar(fill = "skyblue") +
+  labs(title = "Distribución de la Felicidad", x = "Frecuencia de Sentirse Feliz", y = "Conteo")
+
+# Gráfico de la distribución de los ingresos por país
+ggplot(datos_clean, aes(x = C2weight, fill = cntry)) +
+  geom_density(alpha = 0.5) +
+  labs(title = "Distribución de Ingresos por País", x = "Ingreso", y = "Densidad")
+
+# Gráfico de distribución de la edad por país
+ggplot(datos_clean, aes(x = Eduyrs, fill = cntry)) +
+  geom_density(alpha = 0.5) +
+  labs(title = "Distribución de la Edad por País", x = "Años de Educación", y = "Densidad")
+
+# Gráfico de la felicidad por género
+ggplot(datos_clean, aes(x = W4q50, fill = Gndr)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Distribución de la Felicidad por Género", x = "Frecuencia de Sentirse Feliz", y = "Conteo")
+
+# Comparación de ingreso por género
+ggplot(datos_clean, aes(x = Gndr, y = C2weight, fill = Gndr)) +
+  geom_boxplot() +
+  labs(title = "Comparación de Ingresos por Género", x = "Género", y = "Ingreso")
+
+#Correlación entre edad y felicidad
+ggplot(datos_clean, aes(x = Eduyrs, y = W4q50_num)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", col = "red") +
+  labs(title = "Correlación entre Edad y Felicidad", x = "Años de Educación", y = "Felicidad (1-5)")
+
+ 
+```
+
+## Conclusiones
+### Relación entre edad e ingreso del Hogar
+La relación entre la edad y el ingreso del hogar muestra que los ingresos tienden a ser más altos en ciertos rangos de edad, especialmente entre los 30 y 50 años. Este hallazgo puede estar asociado con el avance en la carrera profesional y la acumulación de experiencia laboral que típicamente se observa en este grupo de edad. Las políticas de desarrollo profesional y capacitación continua pueden ser esenciales para mantener y aumentar estos ingresos en el tiempo, particularmente en los países donde se observan mayores diferencias.
+
+### Comparaciones de género en diferentes países
+El análisis de los ingresos del hogar y la felicidad revela diferencias notables entre hombres y mujeres. En general, los hombres tienden a reportar ingresos ligeramente más altos que las mujeres, lo que podría reflejar desigualdades de género en el mercado laboral, como la brecha salarial y las oportunidades de ascenso. Además, las mujeres tienden a reportar niveles de felicidad más altos, lo cual podría estar influenciado por factores culturales y roles sociales. Estas diferencias subrayan la importancia de implementar políticas de igualdad de género en el ámbito laboral y personal.
+
+### Distribuciones de felicidad y bienestar
+La mayoría de los encuestados reportaron sentirse felices al menos algunas veces, con una tendencia hacia niveles más altos de felicidad en los países nórdicos. Este patrón podría estar relacionado con factores como la calidad de vida, las políticas de bienestar social y el equilibrio entre trabajo y vida personal en estos países. Sin embargo, en países con menores índices de felicidad, es crucial investigar los factores y diseñar intervenciones que promuevan el bienestar general.
+
+### Uso de internet
+El uso de internet muestra variaciones significativas entre los diferentes países y grupos demográficos. Países con alta penetración de internet como los países escandinavos y Alemania tienen una mayor proporción de usuarios que utilizan internet diariamente. Estos hallazgos sugieren que la infraestructura tecnológica y las políticas de acceso a internet son críticas para asegurar la inclusión digital. La promoción de la alfabetización digital y la mejora del acceso a internet en regiones con menor uso pueden cerrar la brecha digital y facilitar la igualdad de oportunidades en la era digital.
+
+### Correlación entre edad y felicidad
+La correlación entre edad y felicidad muestra que la felicidad tiende a ser mayor en personas jóvenes y disminuye ligeramente con la edad. Este patrón puede estar relacionado con las responsabilidades y el estrés asociados con la edad adulta, como la carrera profesional y las responsabilidades familiares. Sin embargo, se observa una ligera recuperación de la felicidad en la vejez, lo que puede estar asociado con la jubilación y la disminución de las responsabilidades laborales. Este hallazgo sugiere la importancia de apoyar a las personas en todas las etapas de la vida para mantener altos niveles de felicidad.
