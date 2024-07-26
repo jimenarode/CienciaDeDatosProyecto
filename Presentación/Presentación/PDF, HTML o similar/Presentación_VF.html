@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Informe Técnico</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jimena María Rode Aguilar" />
+    <meta name="date" content="2024-07-25" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <script src="libs/kePrint-0.0.1/kePrint.js"></script>
+    <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Informe Técnico
+]
+.author[
+### Jimena María Rode Aguilar
+]
+.date[
+### 2024-07-25
+]
+
+---
+
+
+# Resumen del Proyecto
+
+El conjunto de datos **CRONOS-2 Wave 4** forma parte de una iniciativa de encuestas sociales a gran escala llevada a cabo en 12 países europeos entre 2021 y 2023. Este informe técnico resume los principales hallazgos del análisis de datos exploratorio (EDA) realizado sobre este conjunto de datos.
+
+---
+
+# Objetivos del Proyecto
+
+## Objetivo Principal
+
+Analizar y visualizar las tendencias en diversas áreas como **desarrollo social**, **diversidad familiar**, **populismo**, **salud mental** y **confianza institucional** utilizando el conjunto de datos **CRONOS-2 Wave 4**.
+
+## Objetivos Específicos
+
+- Explorar la distribución de la edad entre los diferentes países y cómo se relaciona con otras variables.
+- Evaluar cómo varían los ingresos del hogar entre los diferentes países y en función de la edad y el género.
+- Analizar la distribución de la felicidad entre diferentes países y grupos demográficos.
+- Identificar diferencias en el uso de internet entre los diferentes países y grupos demográficos.
+
+---
+
+# Análisis Exploratorio de Datos
+
+## Descripción de los Datos
+
+
+```
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```
+## Warning: package 'here' was built under R version 4.3.3
+```
+
+```
+## here() starts at C:/Z
+```
+
+```
+## Warning: package 'kableExtra' was built under R version 4.3.3
+```
+
+```
+## 
+## Attaching package: 'kableExtra'
+```
+
+```
+## The following object is masked from 'package:dplyr':
+## 
+##     group_rows
+```
+
+```
+## Rows: 6032 Columns: 7
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (5): name, cntry, Gndr, W4q50, Netusoft
+## dbl (2): C2weight, Eduyrs
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+```
+## [1] "Datos cargados correctamente"
+```
+
+```
+## # A tibble: 6 × 7
+##   name       cntry Gndr      W4q50         C2weight Eduyrs Netusoft           
+##   &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;            &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;              
+## 1 CRON2W4e01 AT    Masculino Algunas veces    2.36      11 Less often         
+## 2 CRON2W4e01 AT    Femenino  Rara vez         0.647     13 Less often         
+## 3 CRON2W4e01 AT    Masculino Algunas veces    0.434     14 Less often         
+## 4 CRON2W4e01 AT    Masculino Algunas veces    3.22      12 A few times a month
+## 5 CRON2W4e01 AT    Femenino  Algunas veces    3.54      12 Less often         
+## 6 CRON2W4e01 AT    Femenino  Rara vez         0.411     21 Less often
+```
+
+---
+
+# Tabla Resumen de Indicadores
+
+&lt;table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+&lt;caption&gt;Tabla Resumen de Indicadores&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Edad Media (Años) &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Ingreso Medio (Unidades Monetarias) &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Felicidad Media (1-5) &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Uso de Internet Frecuente (%) &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Uso de Internet Diario (%) &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;width: 2.5cm; "&gt; 15.63 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 3cm; "&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 3cm; "&gt; 1.58 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 3cm; "&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 3cm; "&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# Gráficos de Resultados
+
+## Distribución de la Felicidad
+
+&lt;img src="Presentación_VF_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Distribución de los Ingresos por País
+
+&lt;img src="Presentación_VF_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Distribución de la Edad por País
+
+&lt;img src="Presentación_VF_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Distribución de la Felicidad por Género
+
+&lt;img src="Presentación_VF_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Comparación de Ingresos por Género
+
+&lt;img src="Presentación_VF_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Correlación entre Edad y Felicidad
+
+
+```
+## `geom_smooth()` using formula = 'y ~ x'
+```
+
+```
+## Warning: Removed 1194 rows containing non-finite values (`stat_smooth()`).
+```
+
+```
+## Warning: Removed 1194 rows containing missing values (`geom_point()`).
+```
+
+&lt;img src="Presentación_VF_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Conclusiones
+
+- **Relación entre edad e ingreso del Hogar**: La relación entre la edad y el ingreso del hogar muestra que los ingresos tienden a ser más altos en ciertos rangos de edad, especialmente entre los 30 y 50 años.
+- **Comparaciones de género en diferentes países**: El análisis de los ingresos del hogar y la felicidad revela diferencias notables entre hombres y mujeres.
+- **Distribuciones de felicidad y bienestar**: La mayoría de los encuestados reportaron sentirse felices al menos algunas veces, con una tendencia hacia niveles más altos de felicidad en los países nórdicos.
+- **Uso de internet**: El uso de internet muestra variaciones significativas entre los diferentes países y grupos demográficos.
+- **Correlación entre edad y felicidad**: La correlación entre edad y felicidad muestra que la felicidad tiende a ser mayor en personas jóvenes y disminuye ligeramente con la edad.
+
+---
+
+¡Gracias por su atención!
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
